@@ -1,8 +1,6 @@
 package com.waterfall.savechristmas.savechristmas;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,25 +8,22 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.TimerTask;
-
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class SplashActivity extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
     private static final boolean AUTO_HIDE = true;
-    private static final long TIME_ALIVE=1000;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
      */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 1000;
+    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
     /**
      * Some older devices needs a small delay between UI widget updates
@@ -88,12 +83,11 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_main_menu);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -122,28 +116,6 @@ public class SplashActivity extends AppCompatActivity {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        final Handler splashLife = new Handler();
-        splashLife.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                boolean complete = SwapActivity(new MainMenu());
-                if (!complete) {
-                    splashLife.postDelayed(this,100);
-                }
-                finish();
-            }
-        }, TIME_ALIVE);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        SwapActivity(new MainMenu());
     }
 
     private void toggle() {
@@ -178,16 +150,6 @@ public class SplashActivity extends AppCompatActivity {
         // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
-    }
-
-    public boolean SwapActivity(Activity activity){
-        try {
-            startActivity(activity.getIntent());
-            return true;
-        }catch(Exception e){
-            return false;
-        }
-
     }
 
     /**
